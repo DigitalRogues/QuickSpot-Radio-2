@@ -10,6 +10,7 @@
 #import "CatalogWindowController.h"
 #import "EchoNestClass.h"
 #import "SpotifyClass.h"
+#import "Catalog.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, EchoNestDelegate, SpotifyDelegate>
 
@@ -27,5 +28,7 @@
 @property (strong) EchoNestClass *echoNestClass;
 @property (strong) SpotifyClass *spotifyClass;
 
+//echonest objects
+@property (strong) Catalog *replayCatObject;
 - (IBAction) quitApp:(id)sender;
 @end

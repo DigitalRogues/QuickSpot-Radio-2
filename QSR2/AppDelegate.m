@@ -68,6 +68,33 @@
 	
 }
 
+#pragma mark - EchoNest Methods
+
+- (void) createStationWithCatalog:(id)sender
+{
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"catalogName == %@", [sender title]];
+    
+    Catalog *catalogObject = [Catalog MR_findFirstWithPredicate:predicate inContext:[NSManagedObjectContext MR_contextForCurrentThread]];
+    //save catalogID for replay
+    self.replayCatObject = catalogObject;
+    
+    //takes self.catreplayobject and sends to create statis catalog in EN class
+    [self sendCatalogIDandVariety];
+    
+    
+    
+}
+
+-(void)sendCatalogIDandVariety
+{
+    NSString *keyName = [NSString stringWithFormat:@"varietyValue:%@",self.replayCatObject.catalogName];
+    NSNumber *varietyValue = [[NSUserDefaults standardUserDefaults] objectForKey:keyName];
+    [self.echoNestClass createStaticwithCatalog:self.replayCatObject.catalogID andVariety:varietyValue];
+    
+}
+
+
 #pragma mark - Spotify Methods
 
 - (IBAction) loginSubmit:(id)sender

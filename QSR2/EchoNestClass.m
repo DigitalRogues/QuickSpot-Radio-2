@@ -52,4 +52,31 @@
 }
 
 
+- (void) createStaticwithCatalog:(NSString *)catalogID andVariety:(NSNumber *)varietyValue
+{
+    
+    if (varietyValue == nil) {
+        NSNumber *newNum = [NSNumber numberWithDouble:0.5];
+        varietyValue = newNum;
+    }
+    
+    NSInteger randString = (arc4random() % 2000000) + 1;
+    NSString *string = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/playlist/static?api_key=%@&format=json&type=catalog-radio&seed_catalog=%@&variety=%.1f&bucket=id:spotify-WW&limit=true&results=50&_=%ld",kAPIKEY, catalogID,[varietyValue doubleValue],randString];
+    NSURL * url = [NSURL URLWithString:string];
+    
+    NSURLRequest * request = [[NSURLRequest alloc] initWithURL:url];
+    AFJSONRequestOperation * operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+    success:^(NSURLRequest * request, NSHTTPURLResponse * response, id JSON) {
+        
+    }
+                                          
+    failure:^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error, id JSON)
+    {
+    DDLogError(@"JSON ERROR %@",error);
+    }];
+    
+    [operation start];
+}
+
+
 @end

@@ -18,4 +18,5 @@
 @property (strong) id <EchoNestDelegate> echoDelegate;
 
 -(void)syncCatalogObjects;
+- (void) createStaticwithCatalog:(NSString *)catalogID andVariety:(NSNumber *)varietyValue;
 @end
