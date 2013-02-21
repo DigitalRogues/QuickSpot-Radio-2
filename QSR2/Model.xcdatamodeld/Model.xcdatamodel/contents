@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Artist" representedClassName="Artist" syncable="YES">
+        <attribute name="artistID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artistName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isFavorite" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Catalog" representedClassName="Catalog" syncable="YES">
+        <attribute name="catalogID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="catalogName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sliderValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Artist" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="Catalog" positionX="160" positionY="192" width="128" height="90"/>
+    </elements>
+</model>

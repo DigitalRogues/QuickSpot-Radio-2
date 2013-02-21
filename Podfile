@@ -1,3 +1,4 @@
-platform :ios, '10.8'
+platform :osx, '10.8'
 pod 'AFNetworking'
 pod 'MagicalRecord'
+pod 'CocoaLumberjack'

@@ -7,9 +7,25 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "CatalogWindowController.h"
+#import "EchoNestClass.h"
+#import "SpotifyClass.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, EchoNestDelegate, SpotifyDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
+//spotify login window
+@property (strong) IBOutlet NSTextField * userField;
+@property (strong) IBOutlet NSTextField * passField;
 
+//menu items
+@property (strong)  NSStatusItem * statusItem;
+@property (strong) NSMenuItem *stationsMenuItem;
+@property (strong) IBOutlet NSMenu * menu;
+//controllers
+@property (strong) CatalogWindowController * catController;
+@property (strong) EchoNestClass *echoNestClass;
+@property (strong) SpotifyClass *spotifyClass;
+
+- (IBAction) quitApp:(id)sender;
 @end
