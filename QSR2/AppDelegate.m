@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import <CoreData+MagicalRecord.h>
 #import "Catalog.h"
+#import "LumberjackFormatter.h"
+
 
 @implementation AppDelegate
 
@@ -19,6 +21,9 @@
 	//core data
 	[MagicalRecord setupCoreDataStack];
 	
+    //setup logging
+    [self setupLumberjack];
+    
 	//UI
 	[self menuBarSetUp];
 	
@@ -31,6 +36,26 @@
 	[self.spotifyClass setSpotifyDelegate:self];
 	[self.spotifyClass spotifyAutoLogin];
 	
+    
+}
+
+
+-(void)setupLumberjack
+{
+	//activate lumberjack logging
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    //set up custom logging options
+    
+    LumberjackFormatter *formatter = [[LumberjackFormatter alloc] init];
+    [[DDTTYLogger sharedInstance] setLogFormatter:formatter];
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    NSColor *pink = [NSColor colorWithCalibratedRed:(255/255.0) green:(58/255.0) blue:(159/255.0) alpha:1.0];
+    NSColor *purple = [NSColor colorWithCalibratedRed:0.376 green:0.193 blue:0.579 alpha:1.000];
+    [[DDTTYLogger sharedInstance] setForegroundColor:pink backgroundColor:nil forFlag:LOG_FLAG_INFO];
+    [[DDTTYLogger sharedInstance] setForegroundColor:purple backgroundColor:nil forFlag:LOG_FLAG_VERBOSE];
+    
+
 }
 
 - (IBAction) quitApp:(id)sender
@@ -61,12 +86,12 @@
 	
 	else if ([loggedin isEqualToString:@"YES"])
 		{
-		NSLog(@"SPOTIFY LOGGED IN");
+		DDLogInfo(@"SPOTIFY LOGGED IN");
 		}
 		
 	else
 		{
-		NSLog(@"LOGIN ERROR %@",loggedin);
+		DDLogError(@"LOGIN ERROR %@",loggedin);
 		}
 }
 
