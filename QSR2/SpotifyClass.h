@@ -23,6 +23,7 @@
 
 
 -(void)spotifyAutoLogin;
-- (void) loginWithUsername:(NSString *)username andPassword:(NSString *)password;
+-(void)spotifyLogout;
+-(void)loginWithUsername:(NSString *)username andPassword:(NSString *)password;
 -(void)searchWithArtist:(NSString *)artist andTitle:(NSString *)title;
 @end

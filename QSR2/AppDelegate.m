@@ -145,6 +145,7 @@
 - (IBAction) loginSubmit:(id)sender
 {
     [self.spotifyClass loginWithUsername:[self.userField stringValue] andPassword:[self.passField stringValue]];
+    [self.window close];
 }
 
 -(IBAction)playPause:(id)sender
@@ -196,13 +197,16 @@
 -(void)spotifyLoginSuccessful:(NSString *)loggedin
 {
 	if ([loggedin isEqualToString:@"NO"]) {
-		[self.window makeKeyAndOrderFront:self];
+        // [self SpotifyloginMenuTitle:nil];
+        self.loginMenuItem.title = @"Login To Spotify";
 	}
 	
 	else if ([loggedin isEqualToString:@"YES"])
 		{
 		DDLogInfo(@"SPOTIFY LOGGED IN");
-		}
+        self.loginMenuItem.title = @"Log out of Spotify";
+        // [self SpotifyloginMenuTitle:nil];
+        }
 		
 	else
 		{
@@ -213,7 +217,22 @@
 
 #pragma mark - Menu UI actions
 
-//	NSArray *catalogsSorted = [Catalog MR_findAllSortedBy:@"catalogName" ascending:YES inContext:[NSManagedObjectContext MR_contextForCurrentThread]];
+-(IBAction)SpotifyloginMenuTitle:(id)sender
+{
+    if ([self.loginMenuItem.title isEqualToString:@"Login To Spotify"])
+        {
+        self.loginMenuItem.title = @"Log out of Spotify";
+        [self.window makeKeyAndOrderFront:self];
+        }
+    else if ([self.loginMenuItem.title isEqualToString:@"Log out of Spotify"])
+        {
+        [self.spotifyClass spotifyLogout];
+        self.loginMenuItem.title = @"Login To Spotify";
+        }
+
+}
+
+
 - (void) buildStationMenu
 {
     if (self.stationsMenuItem) {

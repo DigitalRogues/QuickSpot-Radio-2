@@ -72,7 +72,7 @@
     }];
 }
 
-#pragma mark - Spotify Login
+#pragma mark - Spotify Login/Logout/Search
 
 -(void)spotifyAutoLogin
 {
@@ -115,6 +115,13 @@
     self.search = [[SPSearch alloc] initWithURL:url inSession:[SPSession sharedSession]];
 }
 
+
+- (void)spotifyLogout
+{
+    [[SPSession sharedSession]logout:^{
+        // code here
+    }];
+}
 
 #pragma mark - Delegates
 

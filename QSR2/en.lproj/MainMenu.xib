@@ -1565,7 +1565,6 @@
 							<string key="NSFrame">{{329, 5}, {75, 32}}</string>
 							<reference key="NSSuperview" ref="5912272"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="899606192">
@@ -2358,12 +2357,20 @@
 					<int key="connectionID">733</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">makeKeyAndOrderFront:</string>
-						<reference key="source" ref="903364808"/>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">loginMenuItem</string>
+						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="231224022"/>
 					</object>
-					<int key="connectionID">724</int>
+					<int key="connectionID">734</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">SpotifyloginMenuTitle:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="231224022"/>
+					</object>
+					<int key="connectionID">735</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4149,25 +4156,54 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">733</int>
+			<int key="maxID">735</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">quitApp:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">quitApp:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="SpotifyloginMenuTitle:">id</string>
+						<string key="loginSubmit:">id</string>
+						<string key="nextSong:">id</string>
+						<string key="playPause:">id</string>
+						<string key="quitApp:">id</string>
+						<string key="setGrowlPost:">id</string>
+						<string key="showCatalogWindow:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="SpotifyloginMenuTitle:">
+							<string key="name">SpotifyloginMenuTitle:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="loginSubmit:">
+							<string key="name">loginSubmit:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="nextSong:">
+							<string key="name">nextSong:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="playPause:">
+							<string key="name">playPause:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="quitApp:">
 							<string key="name">quitApp:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="setGrowlPost:">
+							<string key="name">setGrowlPost:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showCatalogWindow:">
+							<string key="name">showCatalogWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="loginMenuItem">NSMenuItem</string>
 						<string key="menu">NSMenu</string>
 						<string key="passField">NSTextField</string>
 						<string key="pauseMenuItem">NSMenuItem</string>
@@ -4175,6 +4211,10 @@
 						<string key="window">NSWindow</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="loginMenuItem">
+							<string key="name">loginMenuItem</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="menu">
 							<string key="name">menu</string>
 							<string key="candidateClassName">NSMenu</string>

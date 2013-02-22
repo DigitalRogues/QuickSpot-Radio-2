@@ -25,6 +25,7 @@
 @property (strong) NSMenuItem *stationsMenuItem;
 @property (strong) IBOutlet NSMenu * menu;
 @property (strong) IBOutlet NSMenuItem *pauseMenuItem;
+@property (weak) IBOutlet NSMenuItem * loginMenuItem;
 //controllers
 @property (strong) CatalogWindowController * catController;
 @property (strong) EchoNestClass *echoNestClass;
