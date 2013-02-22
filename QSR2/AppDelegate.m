@@ -9,7 +9,9 @@
 #import "AppDelegate.h"
 #import <CoreData+MagicalRecord.h>
 #import "Catalog.h"
+#import "Song.h"
 #import "LumberjackFormatter.h"
+
 
 
 @implementation AppDelegate
@@ -27,6 +29,10 @@
 	//UI
 	[self menuBarSetUp];
 	
+    //init growl
+    [GrowlApplicationBridge setGrowlDelegate:self];
+    
+    
 	//Classes
 	self.echoNestClass = [[EchoNestClass alloc] init];
 	[self.echoNestClass setEchoDelegate:self];
@@ -36,9 +42,9 @@
 	[self.spotifyClass setSpotifyDelegate:self];
 	[self.spotifyClass spotifyAutoLogin];
 	
-    
+    //artwork observer
+    [self.spotifyClass addObserver:self forKeyPath:@"playbackManager.currentTrack.album.cover.image" options:NSKeyValueObservingOptionNew context:nil];
 }
-
 
 -(void)setupLumberjack
 {
@@ -58,6 +64,20 @@
 
 }
 
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    
+    
+    if ([keyPath isEqualToString:@"playbackManager.currentTrack.album.cover.image"])
+        {
+        if (self.spotifyClass.playbackManager.currentTrack.album.cover.image != nil)
+            {
+            [self setGrowlPost:nil];
+            }
+        }
+}
+
+
 - (IBAction) quitApp:(id)sender
 {
     // for testing login/logout credentials
@@ -67,6 +87,16 @@
 	[[NSApplication sharedApplication] terminate:nil];
 	
 }
+
+- (IBAction) setGrowlPost:(id)sender
+{
+    //uses growl registration dict plist file
+    NSString * song = [NSString stringWithFormat:@"%@ by %@", self.spotifyClass.playbackManager.currentTrack.name, self.spotifyClass.playbackManager.currentTrack.consolidatedArtists];
+    
+    NSData * image = [self.spotifyClass.playbackManager.currentTrack.album.cover.image TIFFRepresentation];
+    [GrowlApplicationBridge notifyWithTitle:@"Now Playing" description:song notificationName:@"New Song" iconData:image priority:0 isSticky:NO clickContext:nil];
+}
+
 
 #pragma mark - EchoNest Methods
 
@@ -94,6 +124,21 @@
     
 }
 
+#pragma mark - EchoNest Delegate
+
+-(void)CatalogObjectsSynced
+{
+	[self buildStationMenu];
+}
+
+-(void)EchoSongListReady
+{
+    //fetch all song items from core data into array to send to next song.
+    NSArray *songArray = [Song MR_findAllInContext:[NSManagedObjectContext MR_contextForCurrentThread]];
+    self.songArray = [songArray mutableCopy];
+    [self nextSong:nil];
+}
+
 
 #pragma mark - Spotify Methods
 
@@ -102,8 +147,51 @@
     [self.spotifyClass loginWithUsername:[self.userField stringValue] andPassword:[self.passField stringValue]];
 }
 
+-(IBAction)playPause:(id)sender
+{
+    
+    switch (self.spotifyClass.playbackManager.isPlaying) {
+        case 0:
+            self.spotifyClass.playbackManager.isPlaying = TRUE;
+            self.pauseMenuItem.title = @"Pause";
+            [self.menu update];
+            [self setGrowlPost:nil];
+            break;
+            
+        case 1:
+            self.spotifyClass.playbackManager.isPlaying = FALSE;
+            self.pauseMenuItem.title = @"UnPause";
+            [self.menu update];
+        default:
+            
+            break;
+    }
+}
+
+
+- (IBAction) nextSong:(id)sender
+{
+    
+    if ([self.songArray count] > 0) {
+        
+        Song *songObject = [self.songArray objectAtIndex:0];
+        [self.spotifyClass searchWithArtist:songObject.artistName andTitle:songObject.songTitle];
+        [self.songArray removeObjectAtIndex:0];
+    }
+    else if ([self.songArray count] == 0)
+        {
+        
+        [self sendCatalogIDandVariety];
+        }
+}
+
 
 #pragma mark - Spotify Delegates
+
+-(void)TrackDidEndPlayback
+{
+    [self nextSong:nil];
+}
 
 -(void)spotifyLoginSuccessful:(NSString *)loggedin
 {
@@ -120,16 +208,6 @@
 		{
 		DDLogError(@"LOGIN ERROR %@",loggedin);
 		}
-}
-
-
-
-
-#pragma mark - EchoNest Delegate
-
--(void)CatalogObjectsSynced
-{
-	[self buildStationMenu];
 }
 
 

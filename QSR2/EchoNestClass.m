@@ -9,6 +9,8 @@
 #import "EchoNestClass.h"
 #import <AFNetworking.h>
 #import "Catalog.h"
+#import "Artist.h"
+#import "Song.h"
 
 #define kAPIKEY  @"5LH6F9ILZRD5FL5C9"
 #define kBASEURL @"http://developer.echonest.com/api/v4/playlist/"
@@ -67,7 +69,16 @@
     NSURLRequest * request = [[NSURLRequest alloc] initWithURL:url];
     AFJSONRequestOperation * operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
     success:^(NSURLRequest * request, NSHTTPURLResponse * response, id JSON) {
+        //clear out old songs
+        [Song MR_truncateAllInContext:[NSManagedObjectContext MR_contextForCurrentThread]];
         
+        for (id obj in [[JSON objectForKey:@"response"] objectForKey:@"songs"]) {
+        Song *songObject = [Song MR_createInContext:[NSManagedObjectContext MR_contextForCurrentThread]];
+            songObject.artistName = [obj objectForKey:@"artist_name"];
+            songObject.songTitle = [obj objectForKey:@"title"];
+        }
+        
+        [self.echoDelegate EchoSongListReady];
     }
                                           
     failure:^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error, id JSON)

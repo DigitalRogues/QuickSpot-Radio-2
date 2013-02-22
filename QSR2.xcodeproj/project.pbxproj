@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		70FAE8923A334B13A0958826 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20B7528774A04510B5BAEE9D /* libPods.a */; };
+		BC7ED27716D6E698008B534B /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7ED27616D6E698008B534B /* Song.m */; };
+		BC7ED27916D71DA8008B534B /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = BC7ED27816D71DA8008B534B /* Growl Registration Ticket.growlRegDict */; };
+		BC7ED27B16D71DEC008B534B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7ED27A16D71DEC008B534B /* Growl.framework */; };
+		BC7ED27C16D71F78008B534B /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC7ED27A16D71DEC008B534B /* Growl.framework */; };
 		BCEEBCDA16D68C8D0097F52D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEBCD916D68C8D0097F52D /* Cocoa.framework */; };
 		BCEEBCE416D68C8D0097F52D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCEEBCE216D68C8D0097F52D /* InfoPlist.strings */; };
 		BCEEBCE616D68C8D0097F52D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEEBCE516D68C8D0097F52D /* main.m */; };
@@ -38,6 +42,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				BCEEBD2316D6B0910097F52D /* CocoaLibSpotify.framework in CopyFiles */,
+				BC7ED27C16D71F78008B534B /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +51,10 @@
 /* Begin PBXFileReference section */
 		20B7528774A04510B5BAEE9D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6682082530164F64BF4B5758 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		BC7ED27516D6E698008B534B /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
+		BC7ED27616D6E698008B534B /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
+		BC7ED27816D71DA8008B534B /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
+		BC7ED27A16D71DEC008B534B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		BCEEBCD616D68C8D0097F52D /* QSR2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QSR2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCEEBCD916D68C8D0097F52D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCEEBCDC16D68C8D0097F52D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -89,6 +98,7 @@
 				BCEEBCDA16D68C8D0097F52D /* Cocoa.framework in Frameworks */,
 				BCEEBD2416D6B09C0097F52D /* CocoaLibSpotify.framework in Frameworks */,
 				70FAE8923A334B13A0958826 /* libPods.a in Frameworks */,
+				BC7ED27B16D71DEC008B534B /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +129,7 @@
 		BCEEBCD816D68C8D0097F52D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BC7ED27A16D71DEC008B534B /* Growl.framework */,
 				BCEEBD2116D6B0320097F52D /* CocoaLibSpotify.framework */,
 				BCEEBCFB16D68E800097F52D /* SystemConfiguration.framework */,
 				BCEEBCD916D68C8D0097F52D /* Cocoa.framework */,
@@ -156,6 +167,7 @@
 		BCEEBCE016D68C8D0097F52D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BC7ED27816D71DA8008B534B /* Growl Registration Ticket.growlRegDict */,
 				BCEEBD2516D6BADF0097F52D /* LumberjackFormatter.h */,
 				BCEEBD2616D6BADF0097F52D /* LumberjackFormatter.m */,
 				BCEEBD0316D690FF0097F52D /* spotify-logo-96x96-no-tagline.png */,
@@ -201,6 +213,8 @@
 		BCEEBD2016D6977C0097F52D /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				BC7ED27516D6E698008B534B /* Song.h */,
+				BC7ED27616D6E698008B534B /* Song.m */,
 				BCEEBD1716D697170097F52D /* Model.xcdatamodeld */,
 				BCEEBD1D16D697710097F52D /* Catalog.h */,
 				BCEEBD1E16D697710097F52D /* Catalog.m */,
@@ -270,6 +284,7 @@
 				BCEEBD0E16D693FF0097F52D /* AlertSheet.xib in Resources */,
 				BCEEBD0F16D693FF0097F52D /* SheetWindow.xib in Resources */,
 				BCEEBD1316D693FF0097F52D /* CatalogWindowController.xib in Resources */,
+				BC7ED27916D71DA8008B534B /* Growl Registration Ticket.growlRegDict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +321,7 @@
 				BCEEBD1C16D697710097F52D /* Artist.m in Sources */,
 				BCEEBD1F16D697710097F52D /* Catalog.m in Sources */,
 				BCEEBD2716D6BADF0097F52D /* LumberjackFormatter.m in Sources */,
+				BC7ED27716D6E698008B534B /* Song.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +422,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../SDKs:frameworks/cocoalibspotify-master/Mac Framework/libspotify-12.1.45-Darwin-universal\"",
 					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/QSR2-eqayptywtigfedcgmkojvnbyqdjb/Build/Products/Debug\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QSR2/QSR2-Prefix.pch";
@@ -423,6 +440,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../SDKs:frameworks/cocoalibspotify-master/Mac Framework/libspotify-12.1.45-Darwin-universal\"",
 					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/QSR2-eqayptywtigfedcgmkojvnbyqdjb/Build/Products/Debug\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QSR2/QSR2-Prefix.pch";

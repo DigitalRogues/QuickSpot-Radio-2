@@ -10,6 +10,7 @@
 @protocol EchoNestDelegate <NSObject>
 @optional
 -(void)CatalogObjectsSynced;
+-(void)EchoSongListReady;
 
 @end
 @interface EchoNestClass : NSObject

@@ -10,8 +10,13 @@
         <attribute name="catalogName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sliderValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
     </entity>
+    <entity name="Song" representedClassName="Song" syncable="YES">
+        <attribute name="artistName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="songTitle" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Artist" positionX="160" positionY="192" width="128" height="90"/>
         <element name="Catalog" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="Song" positionX="160" positionY="192" width="128" height="75"/>
     </elements>
 </model>

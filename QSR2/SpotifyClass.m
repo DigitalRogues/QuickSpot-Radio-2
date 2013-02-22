@@ -12,7 +12,6 @@
 
 @implementation SpotifyClass
 
-
 - (id) init
 {
     self = [super init];
@@ -25,6 +24,7 @@
     return self;
 }
 
+#pragma mark - Init methods
 
 - (void) spotifyInit
 {
@@ -43,12 +43,36 @@
 		}
 	
     [[SPSession sharedSession] setDelegate:self];
-//    self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
-//    self.playbackManager.delegate = self;
-//    [SPSession sharedSession].playbackDelegate = self;
+    self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
+    self.playbackManager.delegate = self;
+    [SPSession sharedSession].playbackDelegate = self;
+
+    //add observer for search tracks
+    [self addObserver:self forKeyPath:@"self.search.tracks" options:NSKeyValueObservingOptionNew context:nil];
 
 }
 
+#pragma mark - Playback method
+
+-(IBAction)playTrack:(id)sender
+{
+    
+    [SPAsyncLoading waitUntilLoaded:sender timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+        
+        SPTrack *loadedTrack = [loadedItems objectAtIndex:0];
+        
+        [self.playbackManager playTrack:loadedTrack callback:^(NSError *error) {
+            
+            if (error) {
+                
+                DDLogError(@"Broken Object: %@, %@",loadedTrack,loadedTrack.spotifyURL);
+            }
+        }];
+        
+    }];
+}
+
+#pragma mark - Spotify Login
 
 -(void)spotifyAutoLogin
 {
@@ -80,7 +104,44 @@
 		}
 }
 
+-(void)searchWithArtist:(NSString *)artist andTitle:(NSString *)title
+{
+    
+    
+    NSString *searchString = [NSString stringWithFormat:@"spotify:search:artist:%@ title:%@",artist, title];
+    searchString = [searchString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    searchString = [searchString stringByReplacingOccurrencesOfString:@"é" withString:@"e"];
+    NSURL *url = [NSURL URLWithString:searchString];
+    self.search = [[SPSearch alloc] initWithURL:url inSession:[SPSession sharedSession]];
+}
+
+
 #pragma mark - Delegates
+
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    
+    if ([keyPath isEqualToString:@"self.search.tracks"]) {
+        if ([self.search.tracks count] > 0) {
+            SPTrack *track = [self.search.tracks objectAtIndex:0];
+            [self playTrack:track];
+        }
+        
+    }
+}
+
+
+- (void) sessionDidEndPlayback:(id<SPSessionPlaybackProvider>)aSession
+{
+    [self.spotifyDelegate TrackDidEndPlayback];
+
+}
+
+-(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager
+{
+    
+}
 
 - (void) sessionDidLoginSuccessfully:(SPSession *)aSession; {
 	[self.spotifyDelegate spotifyLoginSuccessful:@"YES"];

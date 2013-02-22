@@ -11,14 +11,18 @@
 @protocol SpotifyDelegate <NSObject>
 @required
 -(void)spotifyLoginSuccessful:(NSString *)loggedin;
-
+-(void)TrackDidEndPlayback;
 @end
 
 
-@interface SpotifyClass : NSObject <SPSessionDelegate>
+@interface SpotifyClass : NSObject <SPSessionDelegate, SPPlaybackManagerDelegate, SPSessionPlaybackDelegate>
 
 @property (strong) id <SpotifyDelegate> spotifyDelegate;
+@property (strong) SPSearch *search;
+@property (strong) SPPlaybackManager *playbackManager;
+
 
 -(void)spotifyAutoLogin;
 - (void) loginWithUsername:(NSString *)username andPassword:(NSString *)password;
+-(void)searchWithArtist:(NSString *)artist andTitle:(NSString *)title;
 @end

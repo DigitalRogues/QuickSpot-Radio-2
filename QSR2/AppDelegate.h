@@ -11,8 +11,9 @@
 #import "EchoNestClass.h"
 #import "SpotifyClass.h"
 #import "Catalog.h"
+#import <Growl/Growl.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, EchoNestDelegate, SpotifyDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, EchoNestDelegate, SpotifyDelegate, GrowlApplicationBridgeDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 //spotify login window
@@ -23,6 +24,7 @@
 @property (strong)  NSStatusItem * statusItem;
 @property (strong) NSMenuItem *stationsMenuItem;
 @property (strong) IBOutlet NSMenu * menu;
+@property (strong) IBOutlet NSMenuItem *pauseMenuItem;
 //controllers
 @property (strong) CatalogWindowController * catController;
 @property (strong) EchoNestClass *echoNestClass;
@@ -30,5 +32,8 @@
 
 //echonest objects
 @property (strong) Catalog *replayCatObject;
+
+//spotify objects
+@property (strong) NSMutableArray *songArray;
 - (IBAction) quitApp:(id)sender;
 @end
