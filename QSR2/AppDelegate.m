@@ -97,6 +97,12 @@
     [GrowlApplicationBridge notifyWithTitle:@"Now Playing" description:song notificationName:@"New Song" iconData:image priority:0 isSticky:NO clickContext:nil];
 }
 
+#pragma mark - Catalog window delegates
+
+-(void)CatalogwindowClosing
+{
+    [self.echoNestClass syncCatalogObjects];
+}
 
 #pragma mark - EchoNest Methods
 
@@ -125,6 +131,8 @@
 }
 
 #pragma mark - EchoNest Delegate
+
+
 
 -(void)CatalogObjectsSynced
 {
@@ -267,6 +275,7 @@
 - (IBAction) showCatalogWindow:(id)sender
 {
 	self.catController = [[CatalogWindowController alloc]initWithWindowNibName:@"CatalogWindowController"];
+    [self.catController setCatalogDelegate:self];
     [self.catController showWindow:self];
 }
 

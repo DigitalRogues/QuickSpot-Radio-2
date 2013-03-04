@@ -13,7 +13,7 @@
 #import "Catalog.h"
 #import <Growl/Growl.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, EchoNestDelegate, SpotifyDelegate, GrowlApplicationBridgeDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, EchoNestDelegate, SpotifyDelegate, GrowlApplicationBridgeDelegate, CatalogWindowDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 //spotify login window

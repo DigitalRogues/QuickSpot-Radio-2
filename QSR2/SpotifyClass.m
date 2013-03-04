@@ -56,7 +56,7 @@
 
 -(IBAction)playTrack:(id)sender
 {
-    
+
     [SPAsyncLoading waitUntilLoaded:sender timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
         
         SPTrack *loadedTrack = [loadedItems objectAtIndex:0];
@@ -138,6 +138,17 @@
     }
 }
 
+-(void)playbackManagerIsFinishingPlayback:(SPPlaybackManager *)aPlaybackManager
+{
+        DDLogInfo(@"playback is finishing: %@",aPlaybackManager);
+}
+
+-(void)session:(SPSession *)aSession didEncounterNetworkError:(NSError *)error
+{
+    
+    DDLogError(@"network error: %@",error);
+    
+}
 
 - (void) sessionDidEndPlayback:(id<SPSessionPlaybackProvider>)aSession
 {
