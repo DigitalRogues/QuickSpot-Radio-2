@@ -15,12 +15,12 @@
 - (id) init
 {
     self = [super init];
-	
+
     if (self)
-		{
+    {
         [self spotifyInit];
-		}
-	
+    }
+
     return self;
 }
 
@@ -29,98 +29,100 @@
 - (void) spotifyInit
 {
     NSError * error = nil;
-	
+
     [SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithBytes:&g_appkey
                                                                         length:g_appkey_size]
                                                userAgent:@"com.bigb.QSR2"
                                            loadingPolicy:SPAsyncLoadingManual
                                                    error:&error];
-	
+
     if (error != nil)
-		{
+    {
         NSLog(@"CocoaLibSpotify init failed: %@", error);
         abort();
-		}
-	
+    }
+
     [[SPSession sharedSession] setDelegate:self];
     self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
     self.playbackManager.delegate = self;
     [SPSession sharedSession].playbackDelegate = self;
 
-    //add observer for search tracks
+    // add observer for search tracks
     [self addObserver:self forKeyPath:@"self.search.tracks" options:NSKeyValueObservingOptionNew context:nil];
 
 }
 
 #pragma mark - Playback method
 
--(IBAction)playTrack:(id)sender
+- (IBAction) playTrack:(id)sender
 {
 
-    [SPAsyncLoading waitUntilLoaded:sender timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
-        
-        SPTrack *loadedTrack = [loadedItems objectAtIndex:0];
-        
-        [self.playbackManager playTrack:loadedTrack callback:^(NSError *error) {
-            
-            if (error) {
-                
-                DDLogError(@"Broken Object: %@, %@",loadedTrack,loadedTrack.spotifyURL);
-            }
-        }];
-        
-    }];
+    [SPAsyncLoading waitUntilLoaded:sender timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray * loadedItems, NSArray * notLoadedItems) {
+
+         SPTrack * loadedTrack = [loadedItems objectAtIndex:0];
+
+         [self.playbackManager playTrack:loadedTrack callback:^(NSError * error) {
+
+              if (error)
+              {
+
+                  DDLogError(@"Broken Object: %@, %@", loadedTrack, loadedTrack.spotifyURL);
+              }
+          }];
+
+     }];
 }
 
 #pragma mark - Spotify Login/Logout/Search
 
--(void)spotifyAutoLogin
+- (void) spotifyAutoLogin
 {
-	NSMutableDictionary * dic = [[[NSUserDefaults standardUserDefaults] valueForKey:@"SpotifyUsers"] mutableCopy];
-	
+    NSMutableDictionary * dic = [[[NSUserDefaults standardUserDefaults] valueForKey:@"SpotifyUsers"] mutableCopy];
+
     if (dic != nil)
-		{
+    {
         [[SPSession sharedSession] attemptLoginWithUserName:[[dic allKeys] lastObject] existingCredential:[[dic allValues] lastObject]];
-		}
+    }
     ///show notification for no auto login
     else
-		{
-		//login unsuccessful pop up login window in app delegates delegate
-		[self.spotifyDelegate spotifyLoginSuccessful:@"NO"];
-		}
+    {
+        // login unsuccessful pop up login window in app delegates delegate
+        [self.spotifyDelegate spotifyLoginSuccessful:@"NO"];
+    }
 }
 
 - (void) loginWithUsername:(NSString *)username andPassword:(NSString *)password
 {
     if ([username length] > 0 &&
         [password length] > 0)
-		{
+    {
         [[SPSession sharedSession] attemptLoginWithUserName:username
                                                    password:password];
-		}
+    }
     else
-		{
+    {
         NSBeep();
-		}
+    }
 }
 
--(void)searchWithArtist:(NSString *)artist andTitle:(NSString *)title
+- (void) searchWithArtist:(NSString *)artist andTitle:(NSString *)title
 {
-    
-    
-    NSString *searchString = [NSString stringWithFormat:@"spotify:search:artist:%@ title:%@",artist, title];
+
+
+    NSString * searchString = [NSString stringWithFormat:@"spotify:search:artist:%@ title:%@", artist, title];
+
     searchString = [searchString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     searchString = [searchString stringByReplacingOccurrencesOfString:@"é" withString:@"e"];
-    NSURL *url = [NSURL URLWithString:searchString];
+    NSURL * url = [NSURL URLWithString:searchString];
     self.search = [[SPSearch alloc] initWithURL:url inSession:[SPSession sharedSession]];
 }
 
 
-- (void)spotifyLogout
+- (void) spotifyLogout
 {
     [[SPSession sharedSession]logout:^{
-        // code here
-    }];
+         // code here
+     }];
 }
 
 #pragma mark - Delegates
@@ -128,26 +130,28 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    
-    if ([keyPath isEqualToString:@"self.search.tracks"]) {
-        if ([self.search.tracks count] > 0) {
-            SPTrack *track = [self.search.tracks objectAtIndex:0];
+
+    if ([keyPath isEqualToString:@"self.search.tracks"])
+    {
+        if ([self.search.tracks count] > 0)
+        {
+            SPTrack * track = [self.search.tracks objectAtIndex:0];
             [self playTrack:track];
         }
-        
+
     }
 }
 
--(void)playbackManagerIsFinishingPlayback:(SPPlaybackManager *)aPlaybackManager
+- (void) playbackManagerIsFinishingPlayback:(SPPlaybackManager *)aPlaybackManager
 {
-        DDLogInfo(@"playback is finishing: %@",aPlaybackManager);
+    DDLogInfo(@"playback is finishing: %@", aPlaybackManager);
 }
 
--(void)session:(SPSession *)aSession didEncounterNetworkError:(NSError *)error
+- (void) session:(SPSession *)aSession didEncounterNetworkError:(NSError *)error
 {
-    
-    DDLogError(@"network error: %@",error);
-    
+
+    DDLogError(@"network error: %@", error);
+
 }
 
 - (void) sessionDidEndPlayback:(id<SPSessionPlaybackProvider>)aSession
@@ -156,19 +160,19 @@
 
 }
 
--(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager
+- (void) playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager
 {
-    
+
 }
 
 - (void) sessionDidLoginSuccessfully:(SPSession *)aSession; {
-	[self.spotifyDelegate spotifyLoginSuccessful:@"YES"];
-	
+    [self.spotifyDelegate spotifyLoginSuccessful:@"YES"];
+
 }
 
 - (void) session:(SPSession *)aSession didFailToLoginWithError:(NSError *)error; {
     // Invoked by SPSession after a failed login.
-	NSString *errorString = [NSString stringWithFormat:@"%@",error];
+    NSString * errorString = [NSString stringWithFormat:@"%@", error];
     [self.spotifyDelegate spotifyLoginSuccessful:errorString];
 }
 
@@ -176,12 +180,12 @@
 {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary * storedCredentials = [[defaults valueForKey:@"SpotifyUsers"] mutableCopy];
-	
+
     if (storedCredentials == nil)
-		{
+    {
         storedCredentials = [NSMutableDictionary dictionary];
-		}
-	
+    }
+
     [storedCredentials setValue:credential forKey:userName];
     [defaults setValue:storedCredentials forKey:@"SpotifyUsers"];
 }
