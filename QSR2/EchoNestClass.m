@@ -12,8 +12,8 @@
 #import "Artist.h"
 #import "Song.h"
 
-#define kAPIKEY  @"5LH6F9ILZRD5FL5C9"
-#define kBASEURL @"http://developer.echonest.com/api/v4/playlist/"
+#define kAPIKEY  @""
+#define kBASEURL @""
 
 @implementation EchoNestClass
 
